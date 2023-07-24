@@ -1,11 +1,13 @@
-import { Welcome } from '../components/Welcome/Welcome';
-import { ColorSchemeToggle } from '../components/ColorSchemeToggle/ColorSchemeToggle';
+import { trpc } from '../utils/trpc';
 
 export default function HomePage() {
+  const hello = trpc.hello.useQuery({ text: 'client' });
+  if (!hello.data) {
+    return <div>Loading...</div>;
+  }
   return (
-    <>
-      <Welcome />
-      <ColorSchemeToggle />
-    </>
+    <div>
+      <p>{hello.data.greeting}</p>
+    </div>
   );
 }
